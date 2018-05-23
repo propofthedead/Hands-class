@@ -1,0 +1,166 @@
+/*This is the hand class to pull the cards to a hand
+ * Using a linkedlist to with a cap on how many card there can be per game
+ * reated by foster Stulen on 4/23/18
+ */
+
+import java.util.*;
+
+
+public class Hand
+{
+  LinkedList<Card> hand= new LinkedList<Card>();
+   private int limit=0;
+   private int amount=0;
+  public Hand(int count)
+  {
+    limit=count;
+  }
+  
+  public boolean addCard(Card a)
+  {
+    
+   
+    if(amount==limit)
+    {
+      return false;
+    }
+    else{
+     amount++;
+      hand.addLast(a);
+    return true;
+    }
+  }
+  public void getHand()
+  {
+     ListIterator<Card> iter= hand.listIterator();
+    for(int i=0; i<amount;i++)
+    {
+      Card temp=iter.next();
+      System.out.println(temp.toString());
+    }
+  }
+  public boolean isFull()
+  {
+    if (amount==limit)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+  
+  public boolean isEmpty()
+  {
+    if(amount==0)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+  
+  public void showHand()
+  {
+    ListIterator<Card> iter= hand.listIterator();
+    for (int i=0; i<amount;i++)
+    {
+      Card a=iter.next();
+      System.out.println(a.getRank() +" "+a.getSuit());
+    }
+  }
+  public void reset()
+  {
+    ListIterator<Card> iter= hand.listIterator();
+    for(int i=0;i<amount;i++)
+    {
+      iter.next();
+      iter.remove();
+    }
+  }
+  public void removeCard()
+  {
+    hand.remove();
+    amount--;
+  }
+  public void removeCard(Card unwanted)
+  {
+    ListIterator<Card> iter= hand.listIterator();
+    for(int i=0;i<amount;i++)
+    {
+      Card check=iter.next();
+      if(check.getSuit()==unwanted.getSuit() &&check.getRank()==unwanted.getRank())
+      {
+        iter.remove();
+        amount--;
+      }
+    }
+  }
+  
+  public void sortBySuit()
+  {
+    ListIterator<Card> iter= hand.listIterator();
+    Card a=iter.next();
+    Card b=iter.next();
+    for (int i=1;i<amount;i=i+2)
+    {
+      if(a.getSuit()>b.getSuit())
+      {
+        Card temp= a;
+        a=b;
+        b=temp;
+        iter.remove();
+        iter.remove();
+        iter.add(b);
+        iter.add(a);
+      }
+      a=iter.next();
+      b=iter.next();
+    }
+  }
+  public void sortByRank()
+  {
+    ListIterator<Card> iter=hand.listIterator();
+    Card a=iter.next();
+    Card b= iter.next();
+    for(int i=1;i<amount;i=i+2)
+    {
+      if(a.getRank()>b.getRank())
+      {
+        Card temp=a;
+        a=b;
+        b=temp;
+        iter.remove();
+        iter.previous();
+        iter.add(b);
+        iter.remove();
+        iter.previous();
+        iter.add(a);
+      }
+      a=iter.next();
+      b=iter.next();
+    }
+  }
+  
+  public String toString()
+  {
+    ListIterator<Card> iter= hand.listIterator();
+    String answer= "The cards in your hands are '\n'";
+    for(int i=0; i<amount;i++)
+    {
+      Card a=iter.next();
+      answer=answer+a.getSuitAsString()+" "+a.getRankAsString()+"'\n'";
+    }
+    answer=answer+"The limit to the hand is: "+limit;
+    return answer;
+  }
+  
+  public int getCount()
+  {
+    return amount;
+  }
+  
+}
